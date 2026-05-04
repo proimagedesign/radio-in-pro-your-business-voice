@@ -32,11 +32,9 @@ export const Hero = () => {
 
           <h1 className="font-display font-black text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-balance">
             Rádio interna profissional para lojas que{" "}
-            <span className="relative inline-block">
-              <span className="bg-gradient-accent bg-clip-text text-transparent">vendem mais</span>
-              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 8" fill="none" preserveAspectRatio="none">
-                <path d="M2 5 Q 100 -2 198 5" stroke="hsl(var(--accent))" strokeWidth="3" strokeLinecap="round"/>
-              </svg>
+            <span className="relative inline-block px-2 ml-1 mr-1">
+              <span className="relative z-10 text-white">vendem mais</span>
+              <span className="absolute inset-0 bg-accent rounded-lg -rotate-1 scale-110 shadow-accent" />
             </span>{" "}
             todos os dias.
           </h1>
