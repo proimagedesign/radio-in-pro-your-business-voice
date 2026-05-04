@@ -93,15 +93,34 @@ const Auth = () => {
             </Button>
           </form>
 
-          <div className="text-center">
+          <div className="text-center space-y-2">
             <button
               onClick={() => setIsSignUp(!isSignUp)}
-              className="text-sm text-primary hover:underline font-medium"
+              className="text-sm text-primary hover:underline font-medium block w-full"
             >
               {isSignUp
                 ? "Já tem uma conta? Entre agora"
                 : "Não tem uma conta? Cadastre-se"}
             </button>
+            {!isSignUp && (
+              <button
+                type="button"
+                onClick={async () => {
+                  if (!email) {
+                    toast({ variant: "destructive", title: "Informe seu e-mail", description: "Digite seu e-mail no campo acima primeiro." });
+                    return;
+                  }
+                  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: `${window.location.origin}/reset-password`,
+                  });
+                  if (error) toast({ variant: "destructive", title: "Erro", description: error.message });
+                  else toast({ title: "E-mail enviado!", description: "Verifique sua caixa de entrada para redefinir sua senha." });
+                }}
+                className="text-sm text-muted-foreground hover:text-foreground hover:underline block w-full"
+              >
+                Esqueci minha senha
+              </button>
+            )}
           </div>
         </div>
       </main>
