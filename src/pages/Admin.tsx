@@ -9,6 +9,7 @@ const Admin = () => {
   const navigate = useNavigate();
   const { isAdmin, loading } = useUserRole();
   const [authChecked, setAuthChecked] = useState(false);
+  const [claiming, setClaiming] = useState(false);
   const [orders, setOrders] = useState<any[]>([]);
   const [leads, setLeads] = useState<any[]>([]);
 
@@ -19,6 +20,16 @@ const Admin = () => {
     });
   }, [navigate]);
 
+  // Tenta reivindicar como primeiro admin (só funciona se ainda não houver admin)
+  useEffect(() => {
+    if (!authChecked || loading || isAdmin || claiming) return;
+    setClaiming(true);
+    supabase.rpc("claim_first_admin").then(({ data }) => {
+      if (data === true) window.location.reload();
+      else setClaiming(false);
+    });
+  }, [authChecked, loading, isAdmin, claiming]);
+
   useEffect(() => {
     if (!isAdmin) return;
     supabase.from("orders").select("*").order("created_at", { ascending: false })
@@ -27,7 +38,7 @@ const Admin = () => {
       .then(({ data }) => setLeads(data ?? []));
   }, [isAdmin]);
 
-  if (!authChecked || loading) {
+  if (!authChecked || loading || claiming) {
     return <div className="min-h-screen flex items-center justify-center">Carregando...</div>;
   }
 
