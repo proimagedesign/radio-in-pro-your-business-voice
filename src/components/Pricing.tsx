@@ -110,8 +110,9 @@ export const Pricing = () => {
                 variant={p.variant}
                 size="lg"
                 className="w-full mb-7"
+                asChild
               >
-                {p.cta}
+                <a href="/auth">{p.cta}</a>
               </Button>
 
               <ul className="space-y-3.5">

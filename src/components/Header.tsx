@@ -28,8 +28,12 @@ export const Header = () => {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm">Entrar</Button>
-          <Button variant="accent" size="sm">Demonstração</Button>
+          <Button variant="ghost" size="sm" asChild>
+            <a href="/auth">Entrar</a>
+          </Button>
+          <Button variant="accent" size="sm" asChild>
+            <a href="#contato">Demonstração</a>
+          </Button>
         </div>
         <button
           aria-label="Abrir menu"
@@ -45,7 +49,9 @@ export const Header = () => {
             {links.map(l => (
               <a key={l.href} href={l.href} className="py-2 text-sm" onClick={() => setOpen(false)}>{l.label}</a>
             ))}
-            <Button variant="accent" className="w-full">Demonstração Gratuita</Button>
+            <Button variant="accent" className="w-full" asChild>
+              <a href="#contato" onClick={() => setOpen(false)}>Demonstração Gratuita</a>
+            </Button>
           </div>
         </div>
       )}
