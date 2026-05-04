@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Music, LogOut, LayoutDashboard, User } from "lucide-react";
 import { OrderForm } from "@/components/OrderForm";
