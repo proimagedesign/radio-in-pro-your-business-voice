@@ -59,7 +59,7 @@ export const Chatbot = () => {
         title: "Erro no chat",
         description: "Não foi possível obter uma resposta do PRO-Bot agora.",
       });
-      setMessages(prev => [...prev, { role: "bot", text: "Desculpe, tive um problema técnico. Pode tentar novamente em instantes?" }]);
+      setMessages(prev => [...prev, { role: "bot", text: `Erro técnico: ${error.message}` }]);
     } finally {
       setIsLoading(false);
     }
