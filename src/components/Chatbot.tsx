@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   role: "assistant" | "user";
@@ -37,52 +38,14 @@ export const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-      
-      if (!apiKey) {
-        throw new Error("Chave de API (VITE_OPENROUTER_API_KEY) não encontrada no .env");
-      }
-
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${apiKey}`,
-          "HTTP-Referer": window.location.origin,
-          "X-Title": "Rádio In-Pro",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "openai/gpt-4o-mini",
-          messages: [
-            {
-              role: "system",
-              content: `Você é o PRO-Bot, consultor oficial da RÁDIO IN-PRO. 
-              Ajude o cliente a entender os benefícios da rádio interna (marketing sensorial).
-              
-              PLANOS:
-              - Bronze (R$ 289/mês)
-              - Prata (R$ 489/mês)
-              - Ouro (R$ 789/mês): Inclui o fornecimento do sistema de som completo.
-              
-              SOBRE INSTALAÇÃO DE SOM (IMPORTANTE):
-              Se perguntarem sobre a instalação física, explique que no Plano Ouro fornecemos os equipamentos, mas a instalação (mão de obra de fiação/eletricista) é por conta do cliente. Nós damos todo o suporte técnico e consultoria para que o eletricista contratado faça o serviço corretamente.
-              
-              DIRETRIZES:
-              - Incentive o teste de 30 dias (Instalação Rápida).
-              - Responda de forma curta, persuasiva e prestativa em Português.`
-            },
-            ...currentMessages
-          ],
-        }),
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: { messages: currentMessages },
       });
 
-      const data = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error.message || "Erro na API");
-      }
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
 
-      const botMessage = data.choices[0].message.content;
+      const botMessage = data.text;
       setMessages(prev => [...prev, { role: "assistant", content: botMessage }]);
     } catch (error: any) {
       console.error("Erro no chatbot:", error);

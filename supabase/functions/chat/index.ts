@@ -19,7 +19,7 @@ serve(async (req) => {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('VITEOPENROUTERAPIKEY')}`,
+        'Authorization': `Bearer ${Deno.env.get('OPENROUTER_API_KEY')}`,
         'HTTP-Referer': 'https://radioinpro.com.br',
         'X-Title': 'Rádio In-Pro',
         'Content-Type': 'application/json',
@@ -38,11 +38,12 @@ serve(async (req) => {
                - Bronze: R$ 289/mês (1 oferta/semana, Player Web, Vinhetas, Suporte por E-mail).
                - Prata: R$ 489/mês (2 ofertas/semana, Player Web, Vinhetas, Spots Sazonais, Suporte por WhatsApp). É o mais popular.
                - Ouro: R$ 789/mês (4 ofertas/semana, Player Web, Vinhetas, Spots Sazonais, Setup de Som completo, Suporte Prioritário 24h).
-            4. Entrega: Conteúdos atualizados em até 24 horas.
-            5. Instalação Rápida: Oferecemos um teste de 30 dias onde deixamos o sistema rodando no ambiente interno da loja em até 24h.
-            6. Público-alvo: Supermercados, farmácias, lojas de moda, eletro, franquias e qualquer varejo que queira vender mais.
-            7. Tom de voz: Profissional, enérgico, persuasivo, mas sempre prestativo e educado.
-            8. CTA: Sempre que apropriado, incentive o usuário a preencher o formulário de "Instalação Rápida" no final da página para testar por 30 dias.
+            4. SOBRE INSTALAÇÃO DE SOM (IMPORTANTE): No Plano Ouro fornecemos os equipamentos de som, mas a instalação física (mão de obra de fiação/eletricista) é responsabilidade da loja. Damos todo o suporte e consultoria técnica para o eletricista contratado.
+            5. Entrega: Conteúdos atualizados em até 24 horas.
+            6. Instalação Rápida: Oferecemos um teste de 30 dias onde deixamos o sistema rodando no ambiente interno da loja em até 24h.
+            7. Público-alvo: Supermercados, farmácias, lojas de moda, eletro, franquias e qualquer varejo que queira vender mais.
+            8. Tom de voz: Profissional, enérgico, persuasivo, mas sempre prestativo e educado.
+            9. CTA: Sempre que apropriado, incentive o usuário a preencher o formulário de "Instalação Rápida" no final da página para testar por 30 dias.
 
             Responda sempre em Português do Brasil. Mantenha as respostas concisas e focadas em converter o cliente.`
           },
