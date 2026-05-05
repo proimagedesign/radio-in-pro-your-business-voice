@@ -17,7 +17,7 @@ serve(async (req) => {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('OPENROUTER_API_KEY')}`,
+        'Authorization': `Bearer ${Deno.env.get('VITEOPENROUTERAPIKEY')}`,
         'HTTP-Referer': 'https://radioinpro.com.br', // Opcional, mude se desejar
         'X-Title': 'Rádio In-Pro', // Opcional
         'Content-Type': 'application/json',
