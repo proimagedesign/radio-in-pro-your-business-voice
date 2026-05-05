@@ -14,14 +14,16 @@ serve(async (req) => {
   try {
     const { messages } = await req.json();
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+        'Authorization': `Bearer ${Deno.env.get('OPENROUTER_API_KEY')}`,
+        'HTTP-Referer': 'https://radioinpro.com.br', // Opcional, mude se desejar
+        'X-Title': 'Rádio In-Pro', // Opcional
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'openai/gpt-4o-mini', // Ou outro modelo disponível no OpenRouter
         messages: [
           {
             role: 'system',
