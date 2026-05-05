@@ -47,8 +47,8 @@ export const CTA = () => {
 
   return (
     <section id="contato" className="py-24 md:py-32 relative overflow-hidden">
-      <div className="container">
-        <div className="relative rounded-[2rem] bg-gradient-dark text-primary-foreground p-10 md:p-16 overflow-hidden shadow-elegant">
+      <div className="container px-4 md:px-6">
+        <div className="relative rounded-[2rem] bg-gradient-dark text-primary-foreground p-6 md:p-16 overflow-hidden shadow-elegant">
           {/* Decorative */}
           <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-accent/30 blur-3xl" />
           <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-primary-glow/40 blur-3xl" />
@@ -60,17 +60,17 @@ export const CTA = () => {
           <div className="relative grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="text-xs font-bold tracking-[0.2em] text-accent uppercase mb-4">
-                Demonstração Gratuita
+                Instalação Rápida
               </div>
               <h2 className="font-display font-black text-4xl md:text-5xl leading-tight text-balance mb-5">
                 Ouça a sua loja com a voz da RÁDIO IN-PRO.
               </h2>
               <p className="text-primary-foreground/80 text-lg leading-relaxed">
-                Em até 24h enviamos um spot personalizado com o nome da sua marca e uma proposta sob medida para o seu nicho.
+                Em até 24h, deixamos nosso sistema rodando no ambiente interno de som de sua loja.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="rounded-2xl bg-background/95 backdrop-blur p-7 md:p-8 text-foreground shadow-elegant space-y-4">
+            <form onSubmit={handleSubmit} className="rounded-2xl bg-background/95 backdrop-blur p-6 md:p-8 text-foreground shadow-elegant space-y-4">
               <div>
                 <label className="text-sm font-semibold mb-1.5 block">Nome da empresa</label>
                 <Input 
@@ -100,7 +100,7 @@ export const CTA = () => {
                 />
               </div>
               <Button type="submit" variant="accent" size="lg" className="w-full group" disabled={loading}>
-                {loading ? "Enviando..." : "Quero minha demonstração"}
+                {loading ? "Enviando..." : "Testar por 30 dias"}
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
               <p className="text-xs text-muted-foreground text-center pt-1">

@@ -33,7 +33,7 @@ export const Header = () => {
             <a href="/auth">Entrar</a>
           </Button>
           <Button variant="accent" size="sm" asChild>
-            <a href="#contato">Demonstração</a>
+            <a href="#contato">Instalação Rápida</a>
           </Button>
         </div>
         <button
@@ -51,7 +51,7 @@ export const Header = () => {
               <a key={l.href} href={l.href} className="py-2 text-sm" onClick={() => setOpen(false)}>{l.label}</a>
             ))}
             <Button variant="accent" className="w-full" asChild>
-              <a href="#contato" onClick={() => setOpen(false)}>Demonstração Gratuita</a>
+              <a href="#contato" onClick={() => setOpen(false)}>Instalação Rápida</a>
             </Button>
           </div>
         </div>

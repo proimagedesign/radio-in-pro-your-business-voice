@@ -46,7 +46,7 @@ export const Hero = () => {
           <div className="flex flex-wrap gap-4">
             <Button variant="accent" size="xl" className="group" asChild>
               <a href="#contato">
-                Solicitar Demonstração Gratuita
+                Solicitar Instalação Rápida
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </a>
             </Button>
