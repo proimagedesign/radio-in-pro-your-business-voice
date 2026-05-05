@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   role: "bot" | "user";
@@ -15,7 +17,9 @@ export const Chatbot = () => {
     { role: "bot", text: "Olá! Sou o PRO-Bot, seu consultor de rádio e voz. Como posso ajudar sua empresa hoje?" }
   ]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -23,25 +27,40 @@ export const Chatbot = () => {
     }
   }, [messages, isOpen]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
-    setMessages(prev => [...prev, { role: "user", text: userMessage }]);
+    const newMessages: Message[] = [...messages, { role: "user", text: userMessage }];
+    
+    setMessages(newMessages);
     setInput("");
+    setIsLoading(true);
 
-    // Simulando resposta da IA
-    setTimeout(() => {
-      let botResponse = "Interessante! Posso te ajudar com isso. Nossas gravações são entregues em até 24h e temos vozes premium para todos os nichos.";
-      
-      if (userMessage.toLowerCase().includes("preço") || userMessage.toLowerCase().includes("quanto")) {
-        botResponse = "Nossos planos começam em R$ 289/mês. Você pode conferir os detalhes na seção de 'Planos' ou no seu Dashboard.";
-      } else if (userMessage.toLowerCase().includes("demonstração") || userMessage.toLowerCase().includes("teste")) {
-        botResponse = "Claro! Preencha o formulário de demonstração gratuita no final da página e enviaremos um spot exclusivo para sua marca.";
-      }
+    try {
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: { 
+          messages: newMessages.map(m => ({ 
+            role: m.role === "user" ? "user" : "assistant", 
+            content: m.text 
+          })) 
+        },
+      });
 
-      setMessages(prev => [...prev, { role: "bot", text: botResponse }]);
-    }, 1000);
+      if (error) throw error;
+
+      setMessages(prev => [...prev, { role: "bot", text: data.text }]);
+    } catch (error: any) {
+      console.error("Erro no chatbot:", error);
+      toast({
+        variant: "destructive",
+        title: "Erro no chat",
+        description: "Não foi possível obter uma resposta do PRO-Bot agora.",
+      });
+      setMessages(prev => [...prev, { role: "bot", text: "Desculpe, tive um problema técnico. Pode tentar novamente em instantes?" }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -71,11 +90,21 @@ export const Chatbot = () => {
                 <div className={cn("w-6 h-6 rounded-full flex items-center justify-center shrink-0", m.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted")}>
                   {m.role === "user" ? <User size={12} /> : <Bot size={12} />}
                 </div>
-                <div className={cn("p-3 rounded-2xl text-sm", m.role === "user" ? "bg-primary text-primary-foreground rounded-tr-none" : "bg-muted rounded-tl-none")}>
+                <div className={cn("p-3 rounded-2xl text-sm shadow-sm", m.role === "user" ? "bg-primary text-primary-foreground rounded-tr-none" : "bg-muted rounded-tl-none")}>
                   {m.text}
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex gap-2 max-w-[85%] animate-pulse">
+                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center shrink-0">
+                  <Bot size={12} />
+                </div>
+                <div className="p-3 rounded-2xl text-sm bg-muted rounded-tl-none">
+                  Digitando...
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Input */}
@@ -87,7 +116,7 @@ export const Chatbot = () => {
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               className="rounded-full bg-secondary/50 border-none focus-visible:ring-1"
             />
-            <Button size="icon" className="rounded-full shrink-0" onClick={handleSend}>
+            <Button size="icon" className="rounded-full shrink-0" onClick={handleSend} disabled={isLoading}>
               <Send size={18} />
             </Button>
           </div>
