@@ -15,16 +15,17 @@ serve(async (req) => {
   try {
     const { messages } = await req.json();
 
+    console.log('Iniciando chamada ao OpenRouter...');
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${Deno.env.get('VITEOPENROUTERAPIKEY')}`,
-        'HTTP-Referer': 'https://radioinpro.com.br', // Opcional, mude se desejar
-        'X-Title': 'Rádio In-Pro', // Opcional
+        'HTTP-Referer': 'https://radioinpro.com.br',
+        'X-Title': 'Rádio In-Pro',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'openai/gpt-4o-mini', // Ou outro modelo disponível no OpenRouter
+        model: 'openai/gpt-4o-mini',
         messages: [
           {
             role: 'system',
@@ -50,13 +51,26 @@ serve(async (req) => {
       }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Erro do OpenRouter:', errorData);
+      throw new Error(`OpenRouter Error: ${response.status} - ${JSON.stringify(errorData)}`);
+    }
+
     const data = await response.json();
+    console.log('Resposta recebida com sucesso do OpenRouter');
+    
+    if (!data.choices || data.choices.length === 0) {
+      throw new Error('OpenRouter não retornou nenhuma resposta.');
+    }
+
     const botMessage = data.choices[0].message.content;
 
     return new Response(JSON.stringify({ text: botMessage }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
+    console.error('Erro na função chat:', error.message);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
