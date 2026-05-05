@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const links = [
-  { href: "#diferenciais", label: "Diferenciais" },
-  { href: "#planos", label: "Planos" },
-  { href: "#contato", label: "Contato" },
+  { href: "/apresentacao", label: "Apresentação" },
+  { href: "/#diferenciais", label: "Diferenciais" },
+  { href: "/#planos", label: "Planos" },
+  { href: "/#contato", label: "Contato" },
 ];
 
 export const Header = () => {
