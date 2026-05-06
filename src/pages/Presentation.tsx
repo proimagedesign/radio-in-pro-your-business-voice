@@ -25,7 +25,7 @@ const Presentation = () => {
       <main className="pt-20">
         {/* Slide 1: Capa */}
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-dark text-white">
-          <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070')] bg-cover bg-center" />
+          <div className="absolute inset-0 opacity-40 bg-[url('/hero-apresentacao.png')] bg-cover bg-center" />
           <div className="container relative z-10 text-center space-y-6 max-w-4xl">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -94,8 +94,12 @@ const Presentation = () => {
                 </div>
               </div>
               <div className="relative">
-                <div className="aspect-square rounded-3xl bg-gradient-primary overflow-hidden shadow-elegant">
-                  <img src="https://images.unsplash.com/photo-1534452285082-6fc6a1ee2917?q=80&w=2070" alt="Loja movimentada" className="w-full h-full object-cover mix-blend-overlay" />
+                <div className="aspect-square rounded-3xl bg-muted overflow-hidden shadow-elegant border border-border">
+                  <img 
+                    src="/loja-movimentada.png" 
+                    alt="Loja movimentada" 
+                    className="w-full h-full object-cover transition-smooth hover:scale-105" 
+                  />
                 </div>
               </div>
             </div>
